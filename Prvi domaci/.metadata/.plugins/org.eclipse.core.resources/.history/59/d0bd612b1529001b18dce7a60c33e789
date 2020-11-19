@@ -1,0 +1,9 @@
+package rs.ac.bg.etf.players;
+
+public class Ulazem1v4 {
+
+	public Ulazem1v4() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

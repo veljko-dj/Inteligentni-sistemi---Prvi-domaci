@@ -1,0 +1,83 @@
+
+package rs.ac.bg.etf.players;
+
+public class Ulazem1 extends Player {
+
+	private Player.Move myMove = Player.Move.PUT2COINS;
+
+	private String opType = null;
+
+	public void resetPlayerState() {
+		super.resetPlayerState();
+		this.myMove = Player.Move.PUT1COIN;
+	}
+
+	@Override
+	public Move getNextMove() {
+		// Poslednji protivnicki potez 
+		Player.Move opMove = this.opponentMoves.get(this.opponentMoves.size() - 1);
+		
+		// Prvi potez
+		if (!(this.opponentMoves.size() > 0))
+			return this.myMove;
+
+		// Drugi
+		if (this.opponentMoves.size() == 1) {
+			if (opMove == Player.Move.PUT2COINS) {
+				// znaci I ili V
+				myMove = Player.Move.PUT1COIN;
+				opType = "I|V";
+			}
+			if (opMove == Player.Move.DONTPUTCOINS) {
+				// Znaci II, izgubio sam 4p
+				myMove = Move.DONTPUTCOINS;
+				opType = "II";
+			}
+			if (opMove == Player.Move.PUT1COIN) {
+				// Znaci III ili IV
+				// Igracu 0
+				myMove = Move.DONTPUTCOINS;
+				opType = "III|IV";
+			}
+		}
+		if (opType == "II")
+			myMove = Move.DONTPUTCOINS;
+
+		if (this.opponentMoves.size() == 2) {
+			if (opType == "I|V") {
+				if (opMove== Move.PUT2COINS) {
+					opType= "I";
+					myMove= Move.DONTPUTCOINS;
+				}
+				if (opMove == Move.PUT1COIN) {
+					opType= "V";
+					myMove = Move.PUT1COIN;
+				} 
+			}
+			if (opType == "III|IV") {
+				myMove= Move.PUT1COIN;
+			}
+		}
+		if (this.opponentMoves.size() == 3) {
+			if (opType=="III|IV") {
+				if (opMove== Move.PUT1COIN) {
+					opType="IVlast2";
+					myMove= Move.PUT2COINS;
+				}
+				if (opMove== Move.DONTPUTCOINS) {
+					opType= "IIIlast2";
+					myMove= Move.PUT2COINS;
+				}
+			}
+		}
+
+		/*
+		 * if (this.opponentMoves.size() > 0 &&
+		 * ((Player.Move)this.opponentMoves.get(this.opponentMoves.size() -
+		 * 1)).ordinal() < this.myMove.ordinal()) this.myMove =
+		 * this.opponentMoves.get(this.opponentMoves.size() - 1); return this.myMove;
+		 */
+		return myMove;
+	}
+
+}

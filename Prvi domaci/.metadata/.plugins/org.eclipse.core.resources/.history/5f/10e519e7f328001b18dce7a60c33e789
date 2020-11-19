@@ -1,0 +1,26 @@
+
+package rs.ac.bg.etf.players;
+ 
+public class Ulazem1 extends Player {
+	
+	  private Player.Move myMove = Player.Move.PUT2COINS;
+
+
+
+	  public void resetPlayerState() {
+		    super.resetPlayerState();
+		    this.myMove = Player.Move.PUT2COINS;
+		  }
+	
+	@Override
+	public Move getNextMove() {
+		
+		
+		if (this.opponentMoves.size() > 0 && ((Player.Move)this.opponentMoves.get(this.opponentMoves.size() - 1)).ordinal() < this.myMove.ordinal())
+		      this.myMove = this.opponentMoves.get(this.opponentMoves.size() - 1); 
+		    return this.myMove;
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
